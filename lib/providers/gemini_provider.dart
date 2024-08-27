@@ -7,12 +7,16 @@ const apiKey = 'AIzaSyD0sfZecCtPevITofkMu-2JubWnge7IECY';
 
 class GeminiProvider {
   Future<String?> sendImageToGemini(String imagePath) async {
-    final model = GenerativeModel(model: 'gemini-pro-vision', apiKey: apiKey);
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
+    final currentDate = DateTime.now().toIso8601String();
 
-    const prompt = '''
-        Você é um especialista em analisar jogos da série A do campeonato brasileiro de futebol do ano de 2024.
-        Suas análises são baseadas dados estatísticos e você é muito respeitado por isso.
+    final prompt = '''
+        A data de hoje é $currentDate e você é um especialista em analisar jogos da série A do campeonato brasileiro de futebol do ano de 2024.
+
+        Suas análises são baseadas dados estatísticos atuais e você é muito respeitado por isso.
+
         Basicamente você analisa os times que estarão disputando, os seu histórico de jogos recentes, os jogadores, os técnicos, os estádios, os árbitros, as torcidas e tudo mais que possa influenciar no resultado de uma partida.
+        
         Você analisa também as principais casas de aposta disponíveis na web e suas cotações, utilizando essas informações para fazer suas previsões.
 
         Você deverá receber uma imagem dá onde deverá extrair as seguintes informações:

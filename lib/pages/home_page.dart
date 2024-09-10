@@ -1,10 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_ai_photo_analyze/pages/result_page.dart';
-import 'package:flutter_ai_photo_analyze/providers/gemini_provider.dart';
 import 'package:flutter_ai_photo_analyze/widgets/button/button_component.dart';
-import 'package:flutter_ai_photo_analyze/widgets/pick_image/pick_image_component.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,11 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final geminiProvider = GeminiProvider();
-
-  ValueNotifier<String?> image = ValueNotifier(null);
-  ValueNotifier<bool> isLoading = ValueNotifier(false);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,42 +20,27 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: AnimatedBuilder(
-            animation: Listenable.merge([image, isLoading]),
-            builder: (context, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PickImageWidget(
-                    onChanged: (pickedImage) => image.value = pickedImage,
-                  ),
-                  const SizedBox(height: 50.0),
-                  if (image.value != null)
-                    ButtonComponent(
-                      isLoading: isLoading.value,
-                      title: "Enviar para análise",
-                      onTap: () async {
-                        isLoading.value = true;
-
-                        final analysis = await geminiProvider
-                            .sendImageToGemini(image.value!);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ResultPage(
-                              analysis: analysis!,
-                              image: image.value!,
-                            ),
-                          ),
-                        );
-
-                        isLoading.value = false;
-                      },
-                    ),
-                ],
-              );
-            },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Escolha o formato que deseja enviar a sua redação:",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              ButtonComponent(
+                title: "Enviar via Imagem",
+                onTap: () => Navigator.pushNamed(context, '/image'),
+              ),
+              const SizedBox(height: 20.0),
+              ButtonComponent(
+                title: "Enviar via PDF",
+                onTap: () => Navigator.pushNamed(context, '/pdf'),
+              ),
+            ],
           ),
         ),
       ),

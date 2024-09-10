@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_photo_analyze/pages/home_page.dart';
+import 'package:flutter_ai_photo_analyze/pages/image_page.dart';
+import 'package:flutter_ai_photo_analyze/pages/pdf_page.dart';
+import 'package:flutter_ai_photo_analyze/pages/result_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +21,12 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      routes: {
+        '/': (context) => const HomePage(),
+        '/image': (context) => const ImagePage(),
+        '/pdf': (context) => const PdfPage(),
+        '/result': (context) => const ResultPage(),
+      },
     );
   }
 }
